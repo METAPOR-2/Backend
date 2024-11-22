@@ -13,6 +13,8 @@ import lombok.*;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String needs;
 
     @OneToOne(fetch = FetchType.LAZY)

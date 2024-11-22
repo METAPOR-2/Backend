@@ -13,10 +13,12 @@ import lombok.*;
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long locationid; //고유키 설정?
+    private Long id; //고유키 설정?
 
     private String address;
-    private String Do;
+    private String si;
+    private String gu;
+    private String doro;
     private String range;
 
     @OneToOne(fetch = FetchType.LAZY)
