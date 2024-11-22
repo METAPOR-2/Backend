@@ -1,9 +1,6 @@
 package com.example.metapor.Domain.user.controller;
 
-import com.example.metapor.Domain.user.dto.DoctorInfoRequestDto;
-import com.example.metapor.Domain.user.dto.PatientInfoRequestDto;
-import com.example.metapor.Domain.user.dto.TokenDto;
-import com.example.metapor.Domain.user.dto.UserRegisterRequestDto;
+import com.example.metapor.Domain.user.dto.*;
 import com.example.metapor.Domain.user.service.UserService;
 import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.response.RestResponse;
@@ -46,4 +43,16 @@ public class UserController {
                 authToken;
         return ResponseEntity.ok(userService.addDocterInfo(token, requestDto));
     }
+
+    @PostMapping("/user/login")
+    public ResponseEntity<RestResponse<TokenDto>> generalLogin(
+            @RequestBody LoginRequestDto requestDto,
+            @RequestHeader("Authorization") String authToken
+    ) throws CustomException {
+        // Bearer 토큰에서 "Bearer " 접두사를 제거
+        String token = authToken.startsWith("Bearer ") ? authToken.substring(7) : authToken;
+
+        return ResponseEntity.ok(RestResponse.ok(userService.Generallogin(token, requestDto)));
+    };
 }
+
