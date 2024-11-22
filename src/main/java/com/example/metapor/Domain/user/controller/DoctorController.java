@@ -66,7 +66,7 @@ public class DoctorController {
         RestResponse<IntrohospitalRequestDto> response = doctorService.getHospitalInfo(authToken, doctorId);
         return ResponseEntity.ok(response);
     }
-
+    // test
     @PatchMapping("/{doctorId}/update")
     public ResponseEntity<RestResponse<IntrohospitalRequestDto>> updateHospitalInfo(
             @PathVariable("doctorId") Long doctorId,
