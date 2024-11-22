@@ -14,7 +14,7 @@ import lombok.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private String id;
     private boolean isDoctor;
     private String pw;
 
