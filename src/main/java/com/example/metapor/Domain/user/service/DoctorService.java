@@ -1,6 +1,7 @@
 package com.example.metapor.Domain.user.service;
 
 import com.example.metapor.Domain.user.dto.ClinicTypeRequestDto;
+import com.example.metapor.Domain.user.dto.DoctorListResponseDto;
 import com.example.metapor.Domain.user.dto.GetDoctorInfoResponseDto;
 import com.example.metapor.Domain.user.entity.ClinicType;
 import com.example.metapor.Domain.user.entity.Doctor;
@@ -14,7 +15,10 @@ import com.example.metapor.common.exception.ErrorCode;
 import com.example.metapor.common.response.RestResponse;
 import com.example.metapor.common.response.SimpleResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.util.LimitedInputStream;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +40,11 @@ public class DoctorService {
         jwtUtils.getUserIdFromToken(authToken);
         Doctor doctor = doctorRepository.findById(doctorId).orElseThrow(() -> CustomException.of(ErrorCode.DOCTOR_NOT_FOUND));
         return RestResponse.ok(GetDoctorInfoResponseDto.from(doctor));
+    }
+
+    public List<DoctorListResponseDto> getDoctorList(String authToken) throws CustomException {
+        jwtUtils.getUserIdFromToken(authToken);
+        List<Doctor> doctors = doctorRepository.findAll();
+        return DoctorListResponseDto.from(doctors);
     }
 }

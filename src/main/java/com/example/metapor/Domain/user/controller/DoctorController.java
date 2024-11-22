@@ -2,9 +2,11 @@ package com.example.metapor.Domain.user.controller;
 
 import com.example.metapor.Domain.event.dto.CreateEventRequestDto;
 import com.example.metapor.Domain.user.dto.ClinicTypeRequestDto;
+import com.example.metapor.Domain.user.dto.DoctorListResponseDto;
 import com.example.metapor.Domain.user.dto.GetDoctorInfoResponseDto;
 import com.example.metapor.Domain.user.service.DoctorService;
 import com.example.metapor.common.exception.CustomException;
+import com.example.metapor.common.response.ListResponse;
 import com.example.metapor.common.response.RestResponse;
 import com.example.metapor.common.response.SimpleResponse;
 import lombok.Getter;
@@ -38,6 +40,16 @@ public class DoctorController {
                 authToken.substring(7) :
                 authToken;
         return ResponseEntity.ok(doctorService.getDoctorInfo(authToken, doctorId));
+    }
+
+    @GetMapping
+    public ResponseEntity<ListResponse<DoctorListResponseDto>> getDoctorList(
+            @RequestHeader("Authorization") String authToken
+    ) throws CustomException {
+        authToken = authToken.startsWith("Bearer ") ?
+                authToken.substring(7) :
+                authToken;
+        return ResponseEntity.ok(ListResponse.ok(doctorService.getDoctorList(authToken)));
     }
 
 }

@@ -35,4 +35,11 @@ public class Doctor {
         this.user = user;
         user.setDoctor(this); // User 엔티티에 의사 정보를 연결
     }
+
+    public ClinicType getMainClinicType() {
+        if (clinicTypes.isEmpty()) {
+            return null;
+        }
+        return clinicTypes.get(0);
+    }
 }
