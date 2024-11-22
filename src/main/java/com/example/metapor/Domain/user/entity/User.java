@@ -1,7 +1,8 @@
 package com.example.metapor.Domain.user.entity;
 
 
-
+import com.example.metapor.common.exception.CustomException;
+import com.example.metapor.common.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,7 +14,6 @@ import lombok.*;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private boolean isDoctor;
     private String pw;
@@ -49,5 +49,17 @@ public class User {
     public void setLocation(Location location) {
         this.location = location;
         location.setUser(this);
+    }
+
+    public Patient getPatient() throws CustomException {
+        if (isDoctor && patient == null)
+            throw CustomException.of(ErrorCode.NOT_PATIENT);
+        return patient;
+    }
+
+    public Doctor getDoctor() throws CustomException {
+        if (!isDoctor && doctor == null)
+            throw CustomException.of(ErrorCode.NOT_DOCTOR);
+        return doctor;
     }
 }

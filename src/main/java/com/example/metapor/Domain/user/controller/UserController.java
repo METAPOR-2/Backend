@@ -5,6 +5,7 @@ import com.example.metapor.Domain.user.service.UserService;
 import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.response.RestResponse;
 import com.example.metapor.common.response.SimpleResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(summary = "Register user")
     @PostMapping("/user/register")
     public ResponseEntity<RestResponse<TokenDto>> registerUser(
             @RequestBody UserRegisterRequestDto userRegisterRequestDto
