@@ -4,6 +4,7 @@ package com.example.metapor.Domain.user.entity;
 import com.example.metapor.Domain.event.entity.Event;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class Doctor {
     private String license;
     private String hospitalName;
     private String regNumber;
+    private String imgUrl;
+    private String introhospital;
+    private String career;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
