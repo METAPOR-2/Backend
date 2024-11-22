@@ -23,10 +23,6 @@ public enum ErrorCode {
     NOT_PATIENT(400, "UE005", "환자가 아닙니다."),
 
     INVALID_PASSWORD(400, "UE006", "비밀번호가 유효하지 않습니다."),
-
-
-
-
     ;
     private final String message;
     private final String code;
