@@ -7,3 +7,10 @@ spring:
     username: METAPOR
     password: METAPOR
 
+
+jwt:
+  secret: hgy78uijhgyt67y8uhtf5r6t7yuhgfrd56t7yuhgcrd56t7y8ihjgcrd567ty8ihgcrs45er6t7y8u9i0thj4329u8ehw32rbji49euh
+  access:
+    expiration: 2592000000 #60*60*24*30000
+  refresh:
+    expiration: 2592000000 #60*60*24*30000
