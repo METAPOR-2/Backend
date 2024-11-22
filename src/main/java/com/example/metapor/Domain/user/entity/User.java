@@ -19,6 +19,7 @@ public class User {
     private String pw;
 
     private String name;
+    private String phone;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Doctor doctor;
@@ -27,7 +28,7 @@ public class User {
     private Patient patient;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @JoinColumn(name = "location_id")
     private Location location;
 
     public boolean isDoctor() {

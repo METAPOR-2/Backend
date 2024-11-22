@@ -16,6 +16,8 @@ public enum ErrorCode {
     TOKEN_NOT_SUPPORTED(401, "TE004", "지원하지 않는 토큰입니다."),
     TOKEN_NOT_VALID(401, "TE005", "유효하지 않은 토큰입니다."),
     REFRESH_TOKEN_EXPIRED(401, "TE006", "만료된 refresh 토큰입니다."),
+    // ======================================= USER =======================================
+    USER_ALREADY_EXIST(400, "UE002", "이미 존재하는 사용자입니다."),
     ;
     private final String message;
     private final String code;
