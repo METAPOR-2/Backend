@@ -69,12 +69,14 @@ public class UserService {
                         .build()
         );
 
+
         locationRepository.save(Location.builder()
                 .user(user)
                 .address(requestDto.location().address())
                 .si(requestDto.location().si())
                 .gu(requestDto.location().gu())
                 .doro(requestDto.location().doro())
+                .locationRange(requestDto.location().range())
                 .build());
         return SimpleResponse.success();
     }

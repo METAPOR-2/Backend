@@ -19,7 +19,7 @@ public class Location {
     private String si;
     private String gu;
     private String doro;
-    private String range;
+    private String locationRange;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

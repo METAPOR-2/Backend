@@ -18,6 +18,9 @@ public enum ErrorCode {
     REFRESH_TOKEN_EXPIRED(401, "TE006", "만료된 refresh 토큰입니다."),
     // ======================================= USER =======================================
     USER_ALREADY_EXIST(400, "UE002", "이미 존재하는 사용자입니다."),
+    DOCTOR_NOT_FOUND(400, "UE003", "의사를 찾을 수 없습니다."),
+    NOT_DOCTOR(400, "UE004", "의사가 아닙니다."),
+    NOT_PATIENT(400, "UE005", "환자가 아닙니다."),
     ;
     private final String message;
     private final String code;
