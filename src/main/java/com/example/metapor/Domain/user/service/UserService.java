@@ -1,9 +1,6 @@
 package com.example.metapor.Domain.user.service;
 
-import com.example.metapor.Domain.user.dto.DoctorInfoRequestDto;
-import com.example.metapor.Domain.user.dto.PatientInfoRequestDto;
-import com.example.metapor.Domain.user.dto.TokenDto;
-import com.example.metapor.Domain.user.dto.UserRegisterRequestDto;
+import com.example.metapor.Domain.user.dto.*;
 import com.example.metapor.Domain.user.entity.Doctor;
 import com.example.metapor.Domain.user.entity.Location;
 import com.example.metapor.Domain.user.entity.Patient;
@@ -120,14 +117,14 @@ public class UserService {
         User user = userRepository.findById(userId).orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
         return UserInfoResponseDto.from(user);
     }
-    public TokenDto Generallogin(String token, LoginRequestDto requestDto) throws CustomException {
+    public TokenDto Generallogin(LoginRequestDto requestDto) throws CustomException {
 
         // 1. 사용자 존재 여부 확인
         User user = userRepository.findById(requestDto.id())
                 .orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
 
         // 2. 비밀번호 검증
-        if (!passwordEncoder.matches(requestDto.pw(), user.getPw())) {
+        if (!passwordEncoder.matches(requestDto.password(), user.getPw())) {
             throw CustomException.of(ErrorCode.INVALID_PASSWORD);
         }
 
