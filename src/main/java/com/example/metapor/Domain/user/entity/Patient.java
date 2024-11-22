@@ -1,7 +1,7 @@
 package com.example.metapor.Domain.user.entity;
 
 
-import com.example.metapor.Domain.event.Request;
+import com.example.metapor.Domain.event.entity.Request;
 import jakarta.persistence.*;
 import lombok.*;
 

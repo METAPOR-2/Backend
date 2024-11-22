@@ -1,4 +1,4 @@
-package com.example.metapor.Domain.event;
+package com.example.metapor.Domain.event.entity;
 
 import com.example.metapor.Domain.user.entity.Doctor;
 import com.example.metapor.Domain.user.entity.Patient;

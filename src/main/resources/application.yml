@@ -22,3 +22,18 @@ jwt:
     expiration: 2592000000 #60*60*24*30000
   refresh:
     expiration: 2592000000 #60*60*24*30000
+
+
+security-config:
+  cors:
+    allowed-origins: http://localhost:3000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+    tagsSorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
