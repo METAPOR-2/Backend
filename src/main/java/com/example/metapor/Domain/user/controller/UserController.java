@@ -39,10 +39,10 @@ public class UserController {
             @RequestBody PatientInfoRequestDto requestDto,
             @RequestHeader("Authorization") String authToken
             ) throws CustomException {
-        String token = authToken.startsWith("Bearer ") ?
+        authToken = authToken.startsWith("Bearer ") ?
                 authToken.substring(7) :
                 authToken;
-        return ResponseEntity.ok(userService.addPatientInfo(token, requestDto));
+        return ResponseEntity.ok(userService.addPatientInfo(authToken, requestDto));
     }
 
     @Operation(summary = "의사 정보 입력", description = """
