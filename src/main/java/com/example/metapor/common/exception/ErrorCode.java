@@ -25,6 +25,9 @@ public enum ErrorCode {
     NOT_DOCTOR(400, "UE004", "의사가 아닙니다."),
     NOT_PATIENT(400, "UE005", "환자가 아닙니다."),
 
+    // ======================================= EVENT =======================================
+    EVENT_NOT_FOUND(400, "EE001", "이벤트를 찾을 수 없습니다."),
+
     ;
     private final String message;
     private final String code;

@@ -5,6 +5,8 @@ import com.example.metapor.Domain.event.entity.Event;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 
 @Getter
@@ -23,14 +25,26 @@ public class Doctor {
     private String hospitalName;
     private String regNumber;
 
+    private Integer patientNumberLowerLimit;
+    private Integer patientNumberUpperLimit;
 
+    private String description;
+
+    private LocalDate startAbleDate;
+    private LocalDate endAbleDate;
+
+    private String startAbleTime;
+    private String endAbleTime;
+
+    private Float rating;
+    private Integer reviewCount;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
-    private List<ClinicType> clinicTypes;
+    private List<ClinicTypeDoctorMapping> clinicTypeMappings;
 
     // 추가 메서드
     public void setUser(User user) {
@@ -39,9 +53,20 @@ public class Doctor {
     }
 
     public ClinicType getMainClinicType() {
-        if (clinicTypes.isEmpty()) {
+        if (clinicTypeMappings.isEmpty()) {
             return null;
         }
-        return clinicTypes.get(0);
+        return clinicTypeMappings.get(0).getType();
+    }
+
+    public List<ClinicTypeDoctorMapping> getClinicTypeMappings() {
+        if (clinicTypeMappings == null || clinicTypeMappings.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return clinicTypeMappings;
+    }
+
+    public String getAbleTime() {
+        return startAbleTime + " ~ " + endAbleTime;
     }
 }

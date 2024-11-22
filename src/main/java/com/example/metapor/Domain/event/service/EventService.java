@@ -1,6 +1,9 @@
 package com.example.metapor.Domain.event.service;
 
 import com.example.metapor.Domain.event.dto.CreateEventRequestDto;
+import com.example.metapor.Domain.event.dto.EventInfoDto;
+import com.example.metapor.Domain.event.dto.GetEventPageResponseDto;
+import com.example.metapor.Domain.event.dto.RejectReasonRequestDto;
 import com.example.metapor.Domain.event.entity.Event;
 import com.example.metapor.Domain.event.entity.dao.EventRepository;
 import com.example.metapor.Domain.user.entity.Doctor;
@@ -11,8 +14,11 @@ import com.example.metapor.common.auth.JwtUtils;
 import com.example.metapor.common.dto.JustIdDto;
 import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.exception.ErrorCode;
+import com.example.metapor.common.response.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,5 +46,40 @@ public class EventService {
         eventRepository.save(event);
 
         return new JustIdDto(event.getId());
+    }
+
+    public GetEventPageResponseDto getEventList(String authToken) throws CustomException {
+        User user = userRepository.findById(jwtUtils.getUserIdFromToken(authToken)).orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
+        Doctor doctor = user.getDoctor();
+        List<Event> acceptedEvents = eventRepository.findByDoctorAndIsAccepted(doctor);
+        List<Event> pendingEvents = eventRepository.findByDoctorAndPending(doctor);
+        return new GetEventPageResponseDto(
+                EventInfoDto.from(acceptedEvents),
+                EventInfoDto.from(pendingEvents)
+        );
+    }
+
+    public EventInfoDto getEvent(String authToken, Long eventId) throws CustomException {
+        jwtUtils.getUserIdFromToken(authToken);
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> CustomException.of(ErrorCode.EVENT_NOT_FOUND));
+        return EventInfoDto.from(event);
+    }
+
+    public SimpleResponse acceptEvent(String authToken, Long eventId) throws CustomException {
+        jwtUtils.getUserIdFromToken(authToken);
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> CustomException.of(ErrorCode.EVENT_NOT_FOUND));
+        event.setIsAccepted(true);
+        eventRepository.save(event);
+        return SimpleResponse.success();
+    }
+
+    public SimpleResponse rejectEvent(String authToken, Long eventId, RejectReasonRequestDto requestDto) throws CustomException {
+        jwtUtils.getUserIdFromToken(authToken);
+
+        Event event = eventRepository.findById(eventId).orElseThrow(() -> CustomException.of(ErrorCode.EVENT_NOT_FOUND));
+        event.setIsAccepted(false);
+        event.setRejectReason(requestDto.reason());
+        eventRepository.save(event);
+        return SimpleResponse.success();
     }
 }
