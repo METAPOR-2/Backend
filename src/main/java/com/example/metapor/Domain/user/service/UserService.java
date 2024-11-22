@@ -73,6 +73,7 @@ public class UserService {
                 .si(requestDto.location().si())
                 .gu(requestDto.location().gu())
                 .doro(requestDto.location().doro())
+                .locationRange(requestDto.location().range())
                 .build());
         return SimpleResponse.success();
     }
