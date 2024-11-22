@@ -6,7 +6,6 @@ public record DoctorInfoRequestDto(
     String name,
     String phone,
     String doctorType,
-    MultipartFile licenseImage,
     String hospitalName,
     String regNumber,
     LocationDto location

@@ -35,11 +35,13 @@ public class UserService {
             throw CustomException.of(ErrorCode.USER_ALREADY_EXIST);
         }
 
-        User user = User.builder()
+        User user = userRepository.save(User.builder()
                 .id(requestDto.id())
                 .pw(passwordEncoder.encode(requestDto.password()))
                 .isDoctor(requestDto.isDoctor())
-                .build();
+                .build());
+
+
 
         String accessToken = jwtUtils.generateAccessToken(user);
         String refreshToken = jwtUtils.generateRefreshToken(user);
@@ -79,32 +81,31 @@ public class UserService {
     }
 
     @Transactional
-    public SimpleResponse addDocterInfo(String token, DoctorInfoRequestDto requestDto) throws CustomException {
+    public SimpleResponse addDoctorInfo(String token, DoctorInfoRequestDto requestDto) throws CustomException {
         // 토큰에서 doctorId 추출
         String userId = jwtUtils.getUserIdFromToken(token);
 
         // 의사 정보 조회 (없으면 예외 발생)
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
-        Doctor doctor = user.getDoctor();
-        // 의사 정보 업데이트
-        doctor.getUser().setName(requestDto.name());
-        doctor.getUser().setPhone(requestDto.phone());
-        doctor.setType(requestDto.doctorType());
-        doctor.setHospitalName(requestDto.hospitalName());
-        doctor.setRegNumber(requestDto.regNumber());
-
-        // 자격증 이미지 설정 (이미지 처리는 별도로 해야 할 수 있음)
-        // 의사 정보 저장
-        doctorRepository.save(doctor);
-
-        // 위치 정보 저장
+        user.setName(requestDto.name());
+        user.setPhone(requestDto.phone());
+        userRepository.save(user);
+        doctorRepository.save(
+                Doctor.builder()
+                        .type(requestDto.doctorType())
+                        .hospitalName(requestDto.hospitalName())
+                        .regNumber(requestDto.regNumber())
+                        .user(user)
+                        .build()
+        );
         locationRepository.save(Location.builder()
-                .user(doctor.getUser()) // Location에 doctor 연결
+                .user(user)
                 .address(requestDto.location().address())
                 .si(requestDto.location().si())
                 .gu(requestDto.location().gu())
                 .doro(requestDto.location().doro())
+                .locationRange(requestDto.location().range())
                 .build());
 
         return SimpleResponse.success();

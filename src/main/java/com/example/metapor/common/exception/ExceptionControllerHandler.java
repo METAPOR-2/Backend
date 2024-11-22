@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -18,6 +19,15 @@ public class ExceptionControllerHandler {
         ErrorCode errorCode = e.getErrorCode();
         log.error("Request URI : [{}] {}", request.getMethod() ,request.getRequestURI());
         log.error("Error message : {}", errorCode.getMessage());
+
+        return new ResponseEntity<>(new ErrorResponse(errorCode), HttpStatus.resolve(errorCode.getStatus()));
+    }
+
+    @ExceptionHandler(MissingRequestHeaderException.class)
+    protected ResponseEntity<ErrorResponse> missingRequestHeaderException(MissingRequestHeaderException e, HttpServletRequest request) {
+        ErrorCode errorCode = ErrorCode.TOKEN_NOT_FOUND;
+        log.error("Request URI : [{}] {}", request.getMethod() ,request.getRequestURI());
+        log.error("Error message : {}", "Header missing");
 
         return new ResponseEntity<>(new ErrorResponse(errorCode), HttpStatus.resolve(errorCode.getStatus()));
     }
