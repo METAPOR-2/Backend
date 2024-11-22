@@ -6,6 +6,21 @@ spring:
     url: jdbc:mysql://localhost:3306/METAPOR?createDatabaseIfNotExist=true
     username: METAPOR
     password: METAPOR
+    hikari:
+      connection-timeout: 5000
+      maximum-pool-size: 100
+      connection-init-sql: SELECT 1
+      validation-timeout: 2000
+      minimum-idle: 10
+      idle-timeout: 600000
+      max-lifetime: 1800000
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
 
 
 jwt:
@@ -14,3 +29,18 @@ jwt:
     expiration: 2592000000 #60*60*24*30000
   refresh:
     expiration: 2592000000 #60*60*24*30000
+
+
+security-config:
+  cors:
+    allowed-origins: http://localhost:3000
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    enabled: true
+    tagsSorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true

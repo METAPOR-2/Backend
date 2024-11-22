@@ -1,7 +1,7 @@
 package com.example.metapor.Domain.user.entity;
 
 
-import com.example.metapor.Domain.event.Request;
+import com.example.metapor.Domain.event.entity.Event;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,10 +17,6 @@ public class Patient {
     private Long id;
 
     private String needs;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "request_id") // Foreign key 설정
-    private Request request;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -1,6 +1,7 @@
 package com.example.metapor.common.auth;
 
 import com.example.metapor.Domain.user.entity.User;
+import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -52,13 +53,16 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String getUserIdFromToken(String token) {
+    public String getUserIdFromToken(String token) throws CustomException {
         Claims claims = Jwts.parser()
                 .verifyWith(getSigningKey())
                 .build()
                 .parseSignedClaims(token).getPayload();
-
-        return claims.getSubject();
+        String userId = claims.getSubject();
+        if (!StringUtils.hasText(userId)) {
+            throw CustomException.of(ErrorCode.TOKEN_NOT_VALID);
+        }
+        return userId;
     }
 
     public Claims getClaims(String token) {
