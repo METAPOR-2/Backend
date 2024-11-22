@@ -1,4 +1,4 @@
-package com.example.metapor.Domain;
+package com.example.metapor.Domain.user.entity;
 
 
 import jakarta.persistence.*;
@@ -10,14 +10,15 @@ import lombok.*;
 @AllArgsConstructor // 모든 필드를 매개변수로 받는 전체 생성자를 자동으로 생성
 @Builder //
 @Entity
-public class Doctor {
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long locationid; //고유키 설정?
 
-    private String type;
-    private String license;
-    private String hospitalName;
-    private String regNumber;
+    private String address;
+    private String Do;
+    private String range;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
@@ -25,6 +26,6 @@ public class Doctor {
     // 추가 메서드
     public void setUser(User user) {
         this.user = user;
-        user.setDoctor(this); // User 엔티티에 의사 정보를 연결
     }
+
 }
