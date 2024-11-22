@@ -1,9 +1,6 @@
 package com.example.metapor.Domain.user.service;
 
-import com.example.metapor.Domain.user.dto.DoctorInfoRequestDto;
-import com.example.metapor.Domain.user.dto.PatientInfoRequestDto;
-import com.example.metapor.Domain.user.dto.TokenDto;
-import com.example.metapor.Domain.user.dto.UserRegisterRequestDto;
+import com.example.metapor.Domain.user.dto.*;
 import com.example.metapor.Domain.user.entity.Doctor;
 import com.example.metapor.Domain.user.entity.Location;
 import com.example.metapor.Domain.user.entity.Patient;
@@ -113,6 +110,31 @@ public class UserService {
 
         return SimpleResponse.success();
     }
+
+
+    public TokenDto Generallogin(String token, LoginRequestDto requestDto) throws CustomException {
+
+        // 1. 사용자 존재 여부 확인
+        User user = userRepository.findById(requestDto.id())
+                .orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
+
+        // 2. 비밀번호 검증
+        if (!passwordEncoder.matches(requestDto.pw(), user.getPw())) {
+            throw CustomException.of(ErrorCode.INVALID_PASSWORD);
+        }
+
+        // 3. 토큰 발급
+        String accessToken = jwtUtils.generateAccessToken(user);
+        String refreshToken = jwtUtils.generateRefreshToken(user);
+
+        // 4. TokenDto로 반환
+        return new TokenDto(
+                accessToken,
+                refreshToken
+        );
+    }
+
+
 
 
 
