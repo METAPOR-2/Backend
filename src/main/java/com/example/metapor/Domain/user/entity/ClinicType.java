@@ -16,27 +16,17 @@ public class ClinicType {
     private Long id;
 
     @Column
-    private String type;
+    private String title;
 
     @Column
-    private int price;
+    private String searchContent;
 
-    @Column
-    private String description;
-
-    @ManyToOne
-    @JoinColumn(name = "doctor_id")
-    private Doctor doctor;
-
-    public ClinicType(String type, int price, String description, Doctor doctor) {
-        this.type = type;
-        this.price = price;
-        this.description = description;
-        this.doctor = doctor;
+    public ClinicType(String title, String searchContent) {
+        this.title = title;
+        this.searchContent = searchContent;
     }
 
-    public static ClinicType fromDto(ClinicTypeRequestDto dto, Doctor doctor) {
-        return new ClinicType(dto.title(), dto.price(), dto.description(), doctor);
-
+    public ClinicType(String title) {
+        this.title = title;
     }
 }

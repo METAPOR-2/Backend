@@ -112,14 +112,19 @@ public class UserService {
     }
 
 
-    public TokenDto Generallogin(String token, LoginRequestDto requestDto) throws CustomException {
+    public UserInfoResponseDto getMyInfo(String authToken) throws CustomException {
+        String userId = jwtUtils.getUserIdFromToken(authToken);
+        User user = userRepository.findById(userId).orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
+        return UserInfoResponseDto.from(user);
+    }
+    public TokenDto Generallogin(LoginRequestDto requestDto) throws CustomException {
 
         // 1. 사용자 존재 여부 확인
         User user = userRepository.findById(requestDto.id())
                 .orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
 
         // 2. 비밀번호 검증
-        if (!passwordEncoder.matches(requestDto.pw(), user.getPw())) {
+        if (!passwordEncoder.matches(requestDto.password(), user.getPw())) {
             throw CustomException.of(ErrorCode.INVALID_PASSWORD);
         }
 

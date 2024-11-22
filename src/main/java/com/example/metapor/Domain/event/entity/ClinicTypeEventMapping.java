@@ -1,6 +1,7 @@
 package com.example.metapor.Domain.event.entity;
 
 import com.example.metapor.Domain.user.entity.ClinicType;
+import com.example.metapor.Domain.user.entity.ClinicTypeDoctorMapping;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -16,7 +17,7 @@ public class ClinicTypeEventMapping {
 
     @ManyToOne
     @JoinColumn(name = "clinic_type_id")
-    private ClinicType clinicType;
+    private ClinicTypeDoctorMapping clinicTypeDoctorMapping;
 
     @ManyToOne
     @JoinColumn(name = "event_id")

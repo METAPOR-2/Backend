@@ -9,9 +9,9 @@ public record DoctorListResponseDto(
         String name,
         String profileImage,
         String hospitalName,
-        String mainClinicType,
-        String startAbleTime,
-        String endAbleTime
+        Float rating,
+        Integer reviewCount,
+        List<ClinicTypeResponseDto> clinicTypes
 ) {
     public static DoctorListResponseDto from(Doctor doctor) {
         return new DoctorListResponseDto(
@@ -19,9 +19,9 @@ public record DoctorListResponseDto(
                 doctor.getUser().getName(),
                 null,
                 doctor.getHospitalName(),
-                doctor.getMainClinicType().getType(),
-                null,
-                null
+                doctor.getRating(),
+                doctor.getReviewCount(),
+                ClinicTypeResponseDto.from(doctor.getClinicTypeMappings())
         );
     }
 
