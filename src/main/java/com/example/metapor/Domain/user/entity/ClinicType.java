@@ -15,4 +15,14 @@ public class ClinicType {
 
     @Column
     private String type;
+
+    @Column
+    private int price;
+
+    @Column
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")
+    private Doctor doctor;
 }
