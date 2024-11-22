@@ -1,4 +1,4 @@
-package com.example.metapor.Domain;
+package com.example.metapor.Domain.user.entity;
 
 
 import jakarta.persistence.*;
