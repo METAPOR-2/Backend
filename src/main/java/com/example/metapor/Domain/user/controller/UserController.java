@@ -57,6 +57,6 @@ public class UserController {
         String token = authToken.startsWith("Bearer ") ?
                 authToken.substring(7) :
                 authToken;
-        return ResponseEntity.ok(userService.addDocterInfo(token, requestDto));
+        return ResponseEntity.ok(userService.addDoctorInfo(token, requestDto));
     }
 }
