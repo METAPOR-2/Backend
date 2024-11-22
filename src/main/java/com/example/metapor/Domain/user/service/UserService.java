@@ -66,6 +66,7 @@ public class UserService {
                         .build()
         );
 
+
         locationRepository.save(Location.builder()
                 .user(user)
                 .address(requestDto.location().address())
