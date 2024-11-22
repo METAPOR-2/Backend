@@ -1,9 +1,6 @@
 package com.example.metapor.Domain.user.service;
 
-import com.example.metapor.Domain.user.dto.DoctorInfoRequestDto;
-import com.example.metapor.Domain.user.dto.PatientInfoRequestDto;
-import com.example.metapor.Domain.user.dto.TokenDto;
-import com.example.metapor.Domain.user.dto.UserRegisterRequestDto;
+import com.example.metapor.Domain.user.dto.*;
 import com.example.metapor.Domain.user.entity.Doctor;
 import com.example.metapor.Domain.user.entity.Location;
 import com.example.metapor.Domain.user.entity.Patient;
@@ -15,6 +12,7 @@ import com.example.metapor.Domain.user.entity.dao.UserRepository;
 import com.example.metapor.common.auth.JwtUtils;
 import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.exception.ErrorCode;
+import com.example.metapor.common.response.RestResponse;
 import com.example.metapor.common.response.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -115,5 +113,9 @@ public class UserService {
     }
 
 
-
+    public UserInfoResponseDto getMyInfo(String authToken) throws CustomException {
+        String userId = jwtUtils.getUserIdFromToken(authToken);
+        User user = userRepository.findById(userId).orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
+        return UserInfoResponseDto.from(user);
+    }
 }

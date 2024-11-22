@@ -1,6 +1,5 @@
 package com.example.metapor.Domain.user.controller;
 
-import com.example.metapor.Domain.event.dto.CreateEventRequestDto;
 import com.example.metapor.Domain.user.dto.ClinicTypeRequestDto;
 import com.example.metapor.Domain.user.dto.DoctorListResponseDto;
 import com.example.metapor.Domain.user.dto.GetDoctorInfoResponseDto;
@@ -9,7 +8,8 @@ import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.response.ListResponse;
 import com.example.metapor.common.response.RestResponse;
 import com.example.metapor.common.response.SimpleResponse;
-import lombok.Getter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +17,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/doctor")
 @RequiredArgsConstructor
+@Tag(name = "Doctor", description = "의사 관련 API")
 public class DoctorController {
     private final DoctorService doctorService;
 
+    @Operation(summary = "의사 진료 과목 추가", description = """
+            의사 진료 과목을 추가합니다.<br>
+            accessToken을 헤더에 넣어주세요.<br>
+            """)
     @PostMapping("/clinic-type")
     public ResponseEntity<SimpleResponse> addClinicType(
             @RequestBody ClinicTypeRequestDto requestDto,
@@ -31,6 +36,11 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.addClinicType(authToken, requestDto));
     }
 
+    @Operation(summary = "의사 정보 조회", description = """
+            의사 정보를 조회합니다.<br>
+            accessToken을 헤더에 넣어주세요.<br>
+            의사의 진료 진료 과목들의 ID를 조회 가능합니다(event 생성에 사용)
+            """)
     @GetMapping("/{doctorId}")
     public ResponseEntity<RestResponse<GetDoctorInfoResponseDto>> getDoctorInfo(
             @PathVariable("doctorId") Long doctorId,
@@ -42,6 +52,11 @@ public class DoctorController {
         return ResponseEntity.ok(doctorService.getDoctorInfo(authToken, doctorId));
     }
 
+    @Operation(summary = "의사 전체 목록 조회", description = """
+            의사 목록을 조회합니다.<br>
+            진료 가능 목록 중 하나가 mainClinicType으로 반환됩니다.<br>
+            accessToken을 헤더에 넣어주세요.<br>
+            """)
     @GetMapping
     public ResponseEntity<ListResponse<DoctorListResponseDto>> getDoctorList(
             @RequestHeader("Authorization") String authToken

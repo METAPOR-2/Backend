@@ -6,6 +6,7 @@ import com.example.metapor.common.dto.JustIdDto;
 import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.response.RestResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/event")
 @RequiredArgsConstructor
+@Tag(name = "Event", description = "이벤트 관련 API")
 public class EventController {
 
     private final EventService eventService;

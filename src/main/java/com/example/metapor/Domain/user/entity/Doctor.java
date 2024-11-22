@@ -23,6 +23,8 @@ public class Doctor {
     private String hospitalName;
     private String regNumber;
 
+
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;

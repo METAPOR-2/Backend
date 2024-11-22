@@ -1,20 +1,19 @@
 package com.example.metapor.Domain.user.controller;
 
-import com.example.metapor.Domain.user.dto.DoctorInfoRequestDto;
-import com.example.metapor.Domain.user.dto.PatientInfoRequestDto;
-import com.example.metapor.Domain.user.dto.TokenDto;
-import com.example.metapor.Domain.user.dto.UserRegisterRequestDto;
+import com.example.metapor.Domain.user.dto.*;
 import com.example.metapor.Domain.user.service.UserService;
 import com.example.metapor.common.exception.CustomException;
 import com.example.metapor.common.response.RestResponse;
 import com.example.metapor.common.response.SimpleResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "User", description = "유저 관련 API")
 public class UserController {
 
     private final UserService userService;
@@ -58,5 +57,19 @@ public class UserController {
                 authToken.substring(7) :
                 authToken;
         return ResponseEntity.ok(userService.addDoctorInfo(token, requestDto));
+    }
+
+    @Operation(summary = "내 정보 조회", description = """
+            내 정보를 조회합니다.<br>
+            accessToken을 헤더에 넣어주세요.<br>
+            """)
+    @GetMapping("/user")
+    public ResponseEntity<RestResponse<UserInfoResponseDto>> getMyInfo(
+            @RequestHeader("Authorization") String authToken
+    ) throws CustomException {
+        authToken = authToken.startsWith("Bearer ") ?
+                authToken.substring(7) :
+                authToken;
+        return ResponseEntity.ok(RestResponse.ok(userService.getMyInfo(authToken)));
     }
 }
