@@ -1,5 +1,6 @@
 package com.example.metapor.Domain.user.controller;
 
+import com.example.metapor.Domain.user.dto.DoctorInfoRequestDto;
 import com.example.metapor.Domain.user.dto.PatientInfoRequestDto;
 import com.example.metapor.Domain.user.dto.TokenDto;
 import com.example.metapor.Domain.user.dto.UserRegisterRequestDto;
@@ -33,5 +34,16 @@ public class UserController {
                 authToken.substring(7) :
                 authToken;
         return ResponseEntity.ok(userService.addPatientInfo(token, requestDto));
+    }
+
+    @PostMapping("/doc/user")
+    public ResponseEntity<SimpleResponse> loginDoctor(
+            @RequestBody DoctorInfoRequestDto requestDto,
+            @RequestHeader("Authorization") String authToken
+    ) throws CustomException {
+        String token = authToken.startsWith("Bearer ") ?
+                authToken.substring(7) :
+                authToken;
+        return ResponseEntity.ok(userService.addDocterInfo(token, requestDto));
     }
 }
