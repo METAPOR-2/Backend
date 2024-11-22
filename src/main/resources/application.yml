@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Metapor
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/METAPOR?createDatabaseIfNotExist=true
+    username: METAPOR
+    password: METAPOR
+
