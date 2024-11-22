@@ -72,4 +72,16 @@ public class UserController {
                 authToken;
         return ResponseEntity.ok(RestResponse.ok(userService.getMyInfo(authToken)));
     }
+
+    @PostMapping("/user/login")
+    public ResponseEntity<RestResponse<TokenDto>> generalLogin(
+            @RequestBody LoginRequestDto requestDto,
+            @RequestHeader("Authorization") String authToken
+    ) throws CustomException {
+        // Bearer 토큰에서 "Bearer " 접두사를 제거
+        String token = authToken.startsWith("Bearer ") ? authToken.substring(7) : authToken;
+
+        return ResponseEntity.ok(RestResponse.ok(userService.Generallogin(token, requestDto)));
+    };
 }
+
