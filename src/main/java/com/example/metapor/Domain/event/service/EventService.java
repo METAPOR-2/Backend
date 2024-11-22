@@ -24,6 +24,7 @@ public class EventService {
     private final UserRepository userRepository;
 
     public JustIdDto createEvent(String authToken, CreateEventRequestDto requestDto) throws CustomException {
+        System.out.println("authToken = " + authToken);
         User user = userRepository.findById(jwtUtils.getUserIdFromToken(authToken)).orElseThrow(() -> CustomException.of(ErrorCode.USER_NOT_FOUND));
         Doctor doctor = doctorRepository.findById(requestDto.doctorId())
                 .orElseThrow(() -> CustomException.of(ErrorCode.DOCTOR_NOT_FOUND));
@@ -32,6 +33,7 @@ public class EventService {
                 .address(requestDto.location())
                 .comment(requestDto.comment())
                 .patient(user.getPatient())
+                .applicationDateTime(requestDto.dateTime())
                 .doctor(doctor)
                 .build();
 

@@ -22,11 +22,14 @@ public class EventController {
             accessToken을 헤더에 넣어주세요.<br>
             clinicTypeId는 의사의 정보 조회에서 얻으신 ID를 List형태로 넣으시면 됩니다.
             """)
-    @PostMapping("/event")
+    @PostMapping
     public ResponseEntity<RestResponse<JustIdDto>> createEvent(
             @RequestBody CreateEventRequestDto requestDto,
             @RequestHeader("Authorization") String authToken
     ) throws CustomException {
+        authToken = authToken.startsWith("Bearer ") ?
+                authToken.substring(7) :
+                authToken;
         return ResponseEntity.ok(RestResponse.ok(eventService.createEvent(authToken, requestDto)));
     }
 

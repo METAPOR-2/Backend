@@ -13,6 +13,14 @@ public record GetDoctorInfoResponseDto(
         List<ClinicTypeResponseDto> clinicTypes
 ) {
     public static GetDoctorInfoResponseDto from(Doctor doctor) {
+        System.out.println(
+                doctor.getId().toString() + "\n" +
+                doctor.getUser().getName() + "\n" +
+                doctor.getUser().getLocation()+ "\n" +
+                null + "\n" +
+                doctor.getHospitalName() + "\n" +
+                ClinicTypeResponseDto.from(doctor.getClinicTypes())
+        );
         return new GetDoctorInfoResponseDto(
                 doctor.getId().toString(),
                 doctor.getUser().getName(),
