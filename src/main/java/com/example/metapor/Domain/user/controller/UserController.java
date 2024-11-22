@@ -16,7 +16,10 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(summary = "Register user")
+    @Operation(summary = "회원가입", description = """
+            회원가입을 진행합니다.<br>
+            의사인지 환자인지를 isDoctor에 넣어주시면 됩니다.
+            """)
     @PostMapping("/user/register")
     public ResponseEntity<RestResponse<TokenDto>> registerUser(
             @RequestBody UserRegisterRequestDto userRegisterRequestDto
@@ -24,17 +27,25 @@ public class UserController {
         return ResponseEntity.ok(RestResponse.ok(userService.register(userRegisterRequestDto)));
     }
 
+    @Operation(summary = "환자 정보 입력", description = """
+            환자 정보를 입력합니다.<br>
+            accessToken을 헤더에 넣어주세요.<br>
+            """)
     @PostMapping("/user")
     public ResponseEntity<SimpleResponse> loginUser(
             @RequestBody PatientInfoRequestDto requestDto,
             @RequestHeader("Authorization") String authToken
             ) throws CustomException {
-        String token = authToken.startsWith("Bearer ") ?
+        authToken = authToken.startsWith("Bearer ") ?
                 authToken.substring(7) :
                 authToken;
-        return ResponseEntity.ok(userService.addPatientInfo(token, requestDto));
+        return ResponseEntity.ok(userService.addPatientInfo(authToken, requestDto));
     }
 
+    @Operation(summary = "의사 정보 입력", description = """
+            의사 정보를 입력합니다.<br>
+            accessToken을 헤더에 넣어주세요.<br>
+            """)
     @PostMapping("/doc/user")
     public ResponseEntity<SimpleResponse> loginDoctor(
             @RequestBody DoctorInfoRequestDto requestDto,
@@ -43,7 +54,7 @@ public class UserController {
         String token = authToken.startsWith("Bearer ") ?
                 authToken.substring(7) :
                 authToken;
-        return ResponseEntity.ok(userService.addDocterInfo(token, requestDto));
+        return ResponseEntity.ok(userService.addDoctorInfo(token, requestDto));
     }
 
     @PostMapping("/user/login")

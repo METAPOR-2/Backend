@@ -22,7 +22,7 @@ public class Location {
     private String locationRange;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id")
     private User user;
 
     // 추가 메서드

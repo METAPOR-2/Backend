@@ -5,6 +5,8 @@ import com.example.metapor.Domain.event.entity.Event;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter// 모든 필드에 대해 getter 메소드를 자동으로 생성
 @NoArgsConstructor // 매개변수가 없는 기본 생성자를 자동으로 생성 (new Bank())
@@ -25,9 +27,19 @@ public class Doctor {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @OneToMany(mappedBy = "doctor", fetch = FetchType.LAZY)
+    private List<ClinicType> clinicTypes;
+
     // 추가 메서드
     public void setUser(User user) {
         this.user = user;
         user.setDoctor(this); // User 엔티티에 의사 정보를 연결
+    }
+
+    public ClinicType getMainClinicType() {
+        if (clinicTypes.isEmpty()) {
+            return null;
+        }
+        return clinicTypes.get(0);
     }
 }
