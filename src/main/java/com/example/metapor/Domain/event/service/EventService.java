@@ -4,10 +4,14 @@ import com.example.metapor.Domain.event.dto.CreateEventRequestDto;
 import com.example.metapor.Domain.event.dto.EventInfoDto;
 import com.example.metapor.Domain.event.dto.GetEventPageResponseDto;
 import com.example.metapor.Domain.event.dto.RejectReasonRequestDto;
+import com.example.metapor.Domain.event.entity.ClinicTypeEventMapping;
+import com.example.metapor.Domain.event.entity.dao.ClinicTypeEventMappingRepository;
 import com.example.metapor.Domain.event.entity.Event;
 import com.example.metapor.Domain.event.entity.dao.EventRepository;
+import com.example.metapor.Domain.user.entity.ClinicTypeDoctorMapping;
 import com.example.metapor.Domain.user.entity.Doctor;
 import com.example.metapor.Domain.user.entity.User;
+import com.example.metapor.Domain.user.entity.dao.ClinicTypeDoctorMappingRepository;
 import com.example.metapor.Domain.user.entity.dao.DoctorRepository;
 import com.example.metapor.Domain.user.entity.dao.UserRepository;
 import com.example.metapor.common.auth.JwtUtils;
@@ -28,6 +32,8 @@ public class EventService {
     private final DoctorRepository doctorRepository;
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
+    private final ClinicTypeEventMappingRepository clinicTypeEventMappingRepository;
+    private final ClinicTypeDoctorMappingRepository clinicTypeDoctorMappingRepository;
 
     public JustIdDto createEvent(String authToken, CreateEventRequestDto requestDto) throws CustomException {
         System.out.println("authToken = " + authToken);
@@ -42,8 +48,15 @@ public class EventService {
                 .applicationDateTime(requestDto.dateTime())
                 .doctor(doctor)
                 .build();
-
         eventRepository.save(event);
+        for (Long clinicTypeId : requestDto.clinicTypeIds()) {
+            ClinicTypeDoctorMapping clinicTypeDoctorMapping = clinicTypeDoctorMappingRepository.findById(clinicTypeId).orElseThrow();
+            clinicTypeEventMappingRepository.save(
+                    new ClinicTypeEventMapping(clinicTypeDoctorMapping, event)
+            );
+        }
+
+
 
         return new JustIdDto(event.getId());
     }
