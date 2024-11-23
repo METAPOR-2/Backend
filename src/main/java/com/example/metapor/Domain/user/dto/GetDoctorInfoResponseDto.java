@@ -17,6 +17,7 @@ public record GetDoctorInfoResponseDto(
         List<ClinicTypeResponseDto> clinicTypes
 ) {
     public static GetDoctorInfoResponseDto from(Doctor doctor) {
+
         return new GetDoctorInfoResponseDto(
                 doctor.getId().toString(),
                 doctor.getUser().getName(),
