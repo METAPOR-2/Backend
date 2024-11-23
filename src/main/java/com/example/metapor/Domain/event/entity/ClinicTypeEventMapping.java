@@ -22,4 +22,9 @@ public class ClinicTypeEventMapping {
     @ManyToOne
     @JoinColumn(name = "event_id")
     private Event event;
+
+    public ClinicTypeEventMapping(ClinicTypeDoctorMapping clinicTypeDoctorMapping, Event event) {
+        this.clinicTypeDoctorMapping = clinicTypeDoctorMapping;
+        this.event = event;
+    }
 }
