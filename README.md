@@ -111,7 +111,7 @@ type과 콜론 후 한칸 띄고 subject
 <details>
 <summary> 2️⃣ Branch 전략 </summary>
 - 브랜치 운영
-    - `main` : 완전히 안전하다고 판단되었을 때, 즉 배포가 가능한 최종 merge하는 곳
+    <div>- `main` : 완전히 안전하다고 판단되었을 때, 즉 배포가 가능한 최종 merge하는 곳 </div>
     - `본인이름` : 본인 이름으로 브랜치 파서 커밋 및 푸시하기
    
  
